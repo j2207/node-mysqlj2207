@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const knex = require('../db/knex');
 const mysql = require('mysql');
 const connection = mysql.createConnection({
   host: 'localhost',
@@ -10,19 +11,22 @@ const connection = mysql.createConnection({
 
 
 router.get('/', function (req, res, next) {
-  connection.query(
-    `select * from tasks;`,
-    (error, results) => {
-      console.log(error);
+  knex("tasks")
+    .select("*")
+    .then(function (results) {
       console.log(results);
       res.render('index', {
         title: 'ToDo App',
         todos: results,
       });
-    }
-  );
+    })
+    .catch(function (err) {
+      console.error(err);
+      res.render('index', {
+        title: 'ToDo App',
+      });
+    });
 });
-
 router.post('/', function (req, res, next) {
   connection.connect((err) => {
     if (err) {
