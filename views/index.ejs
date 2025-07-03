@@ -11,10 +11,12 @@
     <input type="submit" value="追加"/>
   </form> 
   
+  ...
   <ul>
     <% for(let todo of todos){ %>
-      <li><span><%= todo %></span></li>
+      <li><span><%= todo.content %></span></li>
     <% } %>
   </ul>
+...
   </body>
 </html>
