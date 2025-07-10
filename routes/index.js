@@ -9,7 +9,7 @@ const connection = mysql.createConnection({
   database: 'todo_app'
 });
 
-
+let todos = [];
 router.get('/', function (req, res, next) {
   knex("tasks")
     .select("*")
