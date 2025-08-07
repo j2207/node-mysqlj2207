@@ -34,6 +34,9 @@ router.get('/', function (req, res, next) {
 
 router.post('/', function (req, res, next) {
   const isAuth = req.isAuthenticated();
+  if (!isAuth) {
+    return res.redirect('/signin');
+  }
   const userId = req.user.id;
   const todo = req.body.add;
   knex("tasks")
