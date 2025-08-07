@@ -23,20 +23,21 @@ router.post('/', function (req, res, next) {
       //password: password,
     })
     .select("*")
-    .then(function(results) {
-  const comparedPassword = bcrypt.compare(password, results[0].password);
-  console.log(comparedPassword);
+   .then(async function (results) {
   if (results.length === 0) {
     res.render("signin", {
       title: "Sign in",
       errorMessage: ["ユーザが見つかりません"],
       isAuth: isAuth,
     });
+  } else if (await bcrypt.compare(password, results[0].password)) {
+    req.session.userid = results[0].id;
+    res.redirect('/');
   } else {
-    req.session.regenerate((err) => {
-      req.session.userid = results[0].id;
-      req.session.username = results[0].name;
-      res.redirect('/');
+    res.render("signin", {
+      title: "Sign in",
+      errorMessage: ["ユーザが見つかりません"],
+      isAuth: isAuth,
     });
   }
 })
