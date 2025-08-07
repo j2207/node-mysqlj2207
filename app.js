@@ -7,7 +7,7 @@ const cookieSession = require("cookie-session");
 const secret = "secretCuisine123";
 const app = express();
 const indexRouter = require('./routes/index');
-app.use('/', indexRouter);
+
 app.use(
   cookieSession({
     name: "session",
@@ -17,6 +17,7 @@ app.use(
     maxAge: 24 * 60 * 60 * 1000, // 24 hours
   })
 );
+app.use('/', indexRouter);
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
