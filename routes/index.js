@@ -39,4 +39,5 @@ router.post('/', function (req, res, next) {
 });
 router.use('/signup', require('./signup'));
 router.use('/signin', require('./signin'));
+router.use('/logout', require('./logout'));
 module.exports = router;
