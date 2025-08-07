@@ -12,6 +12,8 @@ router.get('/', function (req, res, next) {
 });
 
 router.post('/', function (req, res, next) {
+  const userId = req.session.userid;
+  const isAuth = Boolean(userId);
   const username = req.body.username;
   const password = req.body.password;
 
