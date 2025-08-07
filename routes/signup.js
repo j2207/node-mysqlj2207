@@ -29,20 +29,22 @@ router.post('/', function (req, res, next) {
           errorMessage: ["このユーザ名は既に使われています"],
         }) 
       } else if (password === repassword) {
+        const hashedPassword = bcrypt.hash(password, 10);
+        console.log(hashedPassword);
         knex("users")
-          .insert({name: username, password: password})
-          .then(function () {
-            res.redirect("/");
-          })
-          .catch(function (err) {
-            console.error(err);
-            res.render("signup", {
-              title: "Sign up",
-              isAuth: isAuth,
-              errorMessage: [err.sqlMessage],
-            });
-          });
-      } else {
+        .insert({name: username, password: hashedPassword})
+        .then(function () {
+        res.redirect("/");
+      })
+    .catch(function (err) {
+      console.error(err);
+      res.render("signup", {
+        title: "Sign up",
+        errorMessage: [err.sqlMessage],
+        isAuth: isAuth,
+      });
+    });
+  } else {
         res.render("signup", {
           title: "Sign up",
           isAuth: isAuth,
