@@ -3,6 +3,9 @@ const router = express.Router();
 const knex = require('../db/knex');
 
 router.get('/', function (req, res, next) {
+  const userId = req.session.userid;
+const isAuth = Boolean(userId);
+  console.log(`isAuth: ${isAuth}`);
   knex("tasks")
     .select("*")
     .then(function (results) {

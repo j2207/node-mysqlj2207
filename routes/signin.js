@@ -1,24 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const knex = require('../db/knex');
+const knex = require("../db/knex");
+
 router.get('/', function (req, res, next) {
-  const userId = req.session.userid;
-  const isAuth = Boolean(userId);
-  console.log(`isAuth: ${isAuth}`);
-  knex("tasks")
-    .select("*")
-    .then(function (results) {
-      res.render('index', {
-        title: 'ToDo App',
-        todos: results,
-      });
-    })
-    .catch(function (err) {
-      console.error(err);
-      res.render('index', {
-        title: 'ToDo App',
-      });
-    });
+  res.render("signin", {
+    title: "Sign in",
+  });
 });
 
 router.post('/', function (req, res, next) {
@@ -38,7 +25,7 @@ router.post('/', function (req, res, next) {
           errorMessage: ["ユーザが見つかりません"],
         });
       } else {
-        req.session.userid = results[0].id; // ここでセット
+        req.session.userid = results[0].id;
         res.redirect('/');
       }
     })
@@ -47,7 +34,6 @@ router.post('/', function (req, res, next) {
       res.render("signin", {
         title: "Sign in",
         errorMessage: [err.sqlMessage],
-        isAuth: false,
       });
     });
 });

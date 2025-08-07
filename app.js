@@ -5,8 +5,8 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cookieSession = require("cookie-session");
 const secret = "secretCuisine123";
+
 const app = express();
-const indexRouter = require('./routes/index');
 
 app.use(
   cookieSession({
@@ -17,7 +17,7 @@ app.use(
     maxAge: 24 * 60 * 60 * 1000, // 24 hours
   })
 );
-app.use('/', indexRouter);
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -30,7 +30,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // router
 app.use('/', require('./routes'));
-//req.session.userid = results[0].id;
+req.session.userid = results[0].id;
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
@@ -46,7 +46,5 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-
-
 
 module.exports = app;
