@@ -1,18 +1,18 @@
-
 const express = require('express');
 const router = express.Router();
 const knex = require('../db/knex');
 
 router.get('/', function (req, res, next) {
-  const userId = req.session.userid;
+  const userId = req.session ? req.session.userid : null;
   const isAuth = Boolean(userId);
   res.render('signup', {
     title: 'Sign up',
+    isAuth: isAuth,
   });
 });
 
 router.post('/', function (req, res, next) {
-  const userId = req.session.userid;
+  const userId = req.session ? req.session.userid : null;
   const isAuth = Boolean(userId);
   const username = req.body.username;
   const password = req.body.password;
@@ -54,6 +54,7 @@ router.post('/', function (req, res, next) {
       console.error(err);
       res.render("signup", {
         title: "Sign up",
+        isAuth: isAuth,
         errorMessage: [err.sqlMessage],
       });
     });
