@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const knex = require('../db/knex');
-
+const bcrypt = require("bcrypt");
 router.get('/', function (req, res, next) {
   const userId = req.session ? req.session.userid : null;
   const isAuth = Boolean(userId);
