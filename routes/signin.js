@@ -25,8 +25,9 @@ router.post('/', function (req, res, next) {
       if (results.length === 0) {
         res.render("signin", {
           title: "Sign in",
-          errorMessage: ["ユーザが見つかりません"],
           isAuth: isAuth,
+          errorMessage: ["ユーザが見つかりません"],
+          
         });
       } else {
         req.session.userid = results[0].id;
@@ -37,8 +38,9 @@ router.post('/', function (req, res, next) {
       console.error(err);
       res.render("signin", {
         title: "Sign in",
-        errorMessage: [err.sqlMessage],
         isAuth: isAuth,
+        errorMessage: [err.sqlMessage],
+        
       });
     });
 });
