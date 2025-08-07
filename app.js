@@ -28,16 +28,12 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-const indexRouter = require('./routes/index');
-app.use('/', indexRouter);
+// authorization
+require("./config/passport")(app);
 
 // router
-//app.use('/', require('./routes'));
-//req.session.userid = results[0].id;
-app.use((req, res, next) => {
-  res.locals.isAuth = req.session && req.session.userId ? true : false;
-  next();
-});
+app.use('/', require('./routes'));
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
