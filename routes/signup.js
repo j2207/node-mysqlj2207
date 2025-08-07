@@ -2,22 +2,23 @@ const express = require('express');
 const router = express.Router();
 const knex = require('../db/knex');
 const bcrypt = require("bcrypt");
+ 
 router.get('/', function (req, res, next) {
-  const userId = req.session ? req.session.userid : null;
-  const isAuth = Boolean(userId);
+  const userId = req.session.userid;
+const isAuth = Boolean(userId);
   res.render('signup', {
     title: 'Sign up',
-    isAuth: isAuth,
+    isAuth: isAuth
   });
 });
-
+ 
 router.post('/', function (req, res, next) {
   const userId = req.session.userid;
   const isAuth = Boolean(userId);
   const username = req.body.username;
   const password = req.body.password;
   const repassword = req.body.repassword;
-
+ 
   knex("users")
     .where({name: username})
     .select("*")
@@ -25,14 +26,14 @@ router.post('/', function (req, res, next) {
       if (result.length !== 0) {
         res.render("signup", {
           title: "Sign up",
-          errorMessage: ["このユーザ名は既に使われています"],
           isAuth: isAuth,
+          errorMessage: ["このユーザ名は既に使われています"],
         })
       } else if (password === repassword) {
         const hashedPassword = await bcrypt.hash(password, 10);
-        console.log(hashedPassword);
+        //console.log(hashedPassword);
         knex("users")
-          .insert({name: username, password: hashedPassword})
+          .insert({name: username, password: password})
           .then(function () {
             res.redirect("/");
           })
@@ -40,15 +41,15 @@ router.post('/', function (req, res, next) {
             console.error(err);
             res.render("signup", {
               title: "Sign up",
-              errorMessage: [err.sqlMessage],
               isAuth: isAuth,
+              errorMessage: [err.sqlMessage],
             });
           });
       } else {
         res.render("signup", {
           title: "Sign up",
-          errorMessage: ["パスワードが一致しません"],
           isAuth: isAuth,
+          errorMessage: ["パスワードが一致しません"],
         });
       }
     })
@@ -56,8 +57,8 @@ router.post('/', function (req, res, next) {
       console.error(err);
       res.render("signup", {
         title: "Sign up",
-        errorMessage: [err.sqlMessage],
         isAuth: isAuth,
+        errorMessage: [err.sqlMessage],
       });
     });
 });
