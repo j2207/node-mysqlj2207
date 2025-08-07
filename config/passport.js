@@ -2,7 +2,7 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const knex = require("../db/knex");
 const bcrypt = require("bcrypt");
-const User = require("../models/user");
+const User = require('../routes/users');
 const cookieSession = require("cookie-session");
 const secret = "secretCuisine123";
 
