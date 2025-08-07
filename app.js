@@ -32,7 +32,7 @@ const indexRouter = require('./routes/index');
 app.use('/', indexRouter);
 
 // router
-app.use('/', require('./routes'));
+//app.use('/', require('./routes'));
 //req.session.userid = results[0].id;
 app.use((req, res, next) => {
   res.locals.isAuth = req.session && req.session.userId ? true : false;
