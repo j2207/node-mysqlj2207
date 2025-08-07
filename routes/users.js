@@ -23,4 +23,5 @@ async function where(condition) {
 
 module.exports = {
   findById,
+  where,
 };
