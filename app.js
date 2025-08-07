@@ -28,6 +28,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+const indexRouter = require('./routes/index');
+app.use('/', indexRouter);
+
 // router
 app.use('/', require('./routes'));
 //req.session.userid = results[0].id;
