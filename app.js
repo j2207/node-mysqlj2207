@@ -6,7 +6,8 @@ const logger = require('morgan');
 const cookieSession = require("cookie-session");
 const secret = "secretCuisine123";
 const app = express();
-
+const indexRouter = require('./routes/index');
+app.use('/', indexRouter);
 app.use(
   cookieSession({
     name: "session",
